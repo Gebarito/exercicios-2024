@@ -33,7 +33,7 @@ class SpreadsheetWriter {
         $cells[] = $author->name;
         $cells[] = $author->institution;
       }
-    
+
       $row = WriterEntityFactory::createRowFromArray($cells);
       $writer->addRow($row);
     }
