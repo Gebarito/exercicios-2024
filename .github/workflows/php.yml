@@ -1,8 +1,6 @@
 name: PHP
 
-on:
-  workflow_dispatch:
-  
+on:  
   push:
     paths:
       - 'php/**'
