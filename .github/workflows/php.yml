@@ -1,39 +1,57 @@
-name: PHP Composer
+name: PHP
 
 on:
   push:
-    branches: [ "master" ]
-  pull_request:
-    branches: [ "master" ]
-
-permissions:
-  contents: read
+    paths:
+      - 'php/**'
 
 jobs:
-  build:
-
+  Psalm:
     runs-on: ubuntu-latest
-
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v2
 
-    - name: Validate composer.json and composer.lock
-      run: composer validate --strict
+    - name: Installs composer
+      run: |
+        cd php;
+        composer install -n --prefer-dist
 
-    - name: Cache Composer packages
-      id: composer-cache
-      uses: actions/cache@v3
-      with:
-        path: vendor
-        key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
-        restore-keys: |
-          ${{ runner.os }}-php-
+    - name: Run Psalm
+      run: |
+        cd php;
+        vendor/bin/psalm.phar --threads=2 --no-cache
 
-    - name: Install dependencies
-      run: composer install --prefer-dist --no-progress
+  PHPlint:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
 
-    # Add a test script to composer.json, for instance: "test": "vendor/bin/phpunit"
-    # Docs: https://getcomposer.org/doc/articles/scripts.md
+    - name: Installs composer
+      run: |
+        cd php;
+        composer install -n --prefer-dist
 
-    # - name: Run test suite
-    #   run: composer run-script test
+    - name: Configure PHPCS
+      run: |
+        cd php;
+        ./vendor/bin/phpcs --config-set installed_paths `$PWD`vendor/drupal/coder/coder_sniffer,vendor/sirbrillig/phpcs-variable-analysis,vendor/slevomat/coding-standard/
+
+    - name: Run PHPCS
+      run: |
+        cd php;
+        vendor/bin/phpcs --standard=Drupal --ignore='*.md' --extensions=php,profile,inc,install src/
+
+  PHPUnit:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Installs composer
+      run: |
+        cd php;
+        composer install -n --prefer-dist
+
+    - name: Configure PHPCS
+      run: |
+        cd php;
+        ./vendor/bin/phpunit --fail-on-warning --fail-on-notice  tests/Unit
