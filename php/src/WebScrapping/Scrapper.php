@@ -24,20 +24,20 @@ class Scrapper {
       $author = $card->getElementsByTagName('div')->item(0)->textContent;
       $id = $xp->query("//div[@class='volume-info']");
       $type = $xp->query("//div[@class='tags mr-sm']");
-      
+
       $spans = $card->getElementsByTagName('span');
       $institution = array();
       foreach ($spans as $span){
-        if($span->hasAttribute('title')){
+        if($span->hasAttribute('title')) {
           $institution[] = $span->getAttribute('title');
         }
 
       }
-          
-      if ($title != null && $author != null && $id->length > 0) {
+
+      if ($title != NULL && $author != NULL && $id->length > 0) {
         $authors = (explode('; ', $author));
         $operson = array();
-        for($i = 0; $i < count($authors)-1; $i++){
+        for ($i = 0; $i < count($authors) - 1; $i++) {
           $operson[] = new Person($authors[$i], $institution[$i]);
         }
 
@@ -48,6 +48,6 @@ class Scrapper {
     }
 
     return $papers;
-    }
+  }
 
 }
