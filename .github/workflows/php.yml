@@ -1,6 +1,8 @@
-name: php
+name: PHP
 
 on:
+  workflow_dispatch:
+  
   push:
     paths:
       - 'php/**'
