@@ -17,9 +17,9 @@ class SpreadsheetWriter {
     $writer = WriterEntityFactory::createXLSXWriter();
     $writer->openToFile(__DIR__ . '/../../assets/model.xlsx');
 
-    $QtdAuthor = 16;
+    $qtdauthor = 16;
     $columnNames = ["ID", "Title", "Type"];
-    for($i = 1; $i < $QtdAuthor+1; $i++){
+    for($i = 1; $i < $qtdauthor + 1; $i++){
       $columnNames[] = "Author " . $i;
       $columnNames[] = "Author " . $i . " Institution";
     }
