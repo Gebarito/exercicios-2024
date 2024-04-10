@@ -24,7 +24,6 @@ class SpreadsheetWriter {
 
     $row = WriterEntityFactory::createRowFromArray($columnNames);
     $writer->addRow($row);
-
     foreach ($data as $paper) {
       $cells = [];
       $cells[] = $paper->id;
