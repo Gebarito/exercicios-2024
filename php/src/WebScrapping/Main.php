@@ -2,17 +2,8 @@
 
 namespace Chuva\Php\WebScrapping;
 
-/**
- * Runner for the Webscrapping exercice.
- */
 class Main
 {
-
-  /**
-   * Main runner, instantiates a Scrapper and runs.
-   * also runs the SpreadSheetWriter to the I/O operations on model.xlsx (excel spreeadsheet)
-   */
-
   public static function run(): void
   {
     ini_set('display-errors', 'off');
