@@ -4,13 +4,20 @@ namespace Chuva\Php\WebScrapping;
 
 use OpenSpout\Writer\Common\Creator\WriterEntityFactory;
 
+/**
+ * Does the I/O on a spreeadsheet.
+ */
 class SpreadsheetWriter {
 
-  public function WriteToExcel($data = []): void {
+  /**
+   * Write the ../../assets/model.xlsx with the data scrapped from origin.
+   */
+
+  public function write($data = []): void {
     $writer = WriterEntityFactory::createXLSXWriter();
     $writer->openToFile(__DIR__ . '/../../assets/model.xlsx');
 
-    $QtdAuthor = 16; 
+    $QtdAuthor = 16;
     $columnNames = ["ID", "Title", "Type"];
     for($i = 1; $i < $QtdAuthor+1; $i++){
       $columnNames[] = "Author " . $i;

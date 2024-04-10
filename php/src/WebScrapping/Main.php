@@ -2,8 +2,15 @@
 
 namespace Chuva\Php\WebScrapping;
 
+/**
+ * Runner for the Webscrapping exercice.
+ */
 class Main
 {
+
+  /**
+   * Main runner, instantiates a Scrapper and runs.
+   */
   public static function run(): void
   {
     ini_set('display-errors', 'off');
@@ -17,7 +24,7 @@ class Main
     $papers = $scrapper->scrap($dom);
     
     $TableWriter = new SpreadsheetWriter();
-    $TableWriter->WriteToExcel($papers);
+    $TableWriter->write($papers);
 
   }
 
