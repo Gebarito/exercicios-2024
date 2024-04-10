@@ -20,7 +20,7 @@ class Main {
 
     $scrapper = new Scrapper();
     $papers = $scrapper->scrap($dom);
-    
+
     $tableWriter = new SpreadsheetWriter();
     $tableWriter->write($papers);
   }
