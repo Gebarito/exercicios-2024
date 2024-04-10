@@ -37,7 +37,12 @@ jobs:
       run: |
         cd php;
         ./vendor/bin/phpcs --config-set installed_paths `$PWD`vendor/drupal/coder/coder_sniffer,vendor/sirbrillig/phpcs-variable-analysis,vendor/slevomat/coding-standard/
-
+      
+    - name: Run PHPCS
+      run: |
+        cd php;
+        vendor/bin/phpcs --standard=Drupal --ignore='*.md' --extensions=php,profile,inc,install src/
+        
   PHPUnit:
     runs-on: ubuntu-latest
     steps:

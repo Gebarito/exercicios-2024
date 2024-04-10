@@ -12,7 +12,6 @@ class SpreadsheetWriter {
   /**
    * Write the ../../assets/model.xlsx with the data scrapped from origin.
    */
-
   public function write($data = []): void {
     $writer = WriterEntityFactory::createXLSXWriter();
     $writer->openToFile(__DIR__ . '/../../assets/model.xlsx');

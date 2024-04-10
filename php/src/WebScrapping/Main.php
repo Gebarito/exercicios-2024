@@ -25,7 +25,6 @@ class Main
     
     $TableWriter = new SpreadsheetWriter();
     $TableWriter->write($papers);
-
   }
 
 }
