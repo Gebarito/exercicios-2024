@@ -27,7 +27,7 @@ class Scrapper {
 
       $spans = $card->getElementsByTagName('span');
       $institution = [];
-      foreach ($spans as $span){
+      foreach ($spans as $span) {
         if ($span->hasAttribute('title')) {
           $institution[] = $span->getAttribute('title');
         }
