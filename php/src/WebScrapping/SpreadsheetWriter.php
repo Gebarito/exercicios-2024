@@ -17,7 +17,7 @@ class SpreadsheetWriter {
     $writer->openToFile(__DIR__ . '/../../assets/model.xlsx');
     $qtdauthor = 16;
     $columnNames = ["ID", "Title", "Type"];
-    for ($i = 1; $i < $qtdauthor + 1; $i++){
+    for ($i = 1; $i < $qtdauthor + 1; $i++) {
       $columnNames[] = "Author " . $i;
       $columnNames[] = "Author " . $i . " Institution";
     }
@@ -25,12 +25,12 @@ class SpreadsheetWriter {
     $row = WriterEntityFactory::createRowFromArray($columnNames);
     $writer->addRow($row);
 
-    foreach ($data as $paper){
+    foreach ($data as $paper) {
       $cells = [];
       $cells[] = $paper->id;
       $cells[] = $paper->title;
       $cells[] = $paper->type;
-      foreach ($paper->authors as $author){
+      foreach ($paper->authors as $author) {
         $cells[] = $author->name;
         $cells[] = $author->institution;
       }
