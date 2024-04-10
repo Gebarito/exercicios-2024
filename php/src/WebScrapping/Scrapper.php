@@ -18,7 +18,7 @@ class Scrapper {
     $xp = new \DOMXPath($dom);
 
     $indexID = 0;
-    $papers = array();
+    $papers = [];
     foreach ($cards as $card) {
       $title = $card->getElementsByTagName('h4')->item(0)->textContent;
       $author = $card->getElementsByTagName('div')->item(0)->textContent;
@@ -26,9 +26,9 @@ class Scrapper {
       $type = $xp->query("//div[@class='tags mr-sm']");
 
       $spans = $card->getElementsByTagName('span');
-      $institution = array();
+      $institution = [];
       foreach ($spans as $span){
-        if($span->hasAttribute('title')) {
+        if ($span->hasAttribute('title')) {
           $institution[] = $span->getAttribute('title');
         }
 
@@ -36,12 +36,12 @@ class Scrapper {
 
       if ($title != NULL && $author != NULL && $id->length > 0) {
         $authors = (explode('; ', $author));
-        $operson = array();
+        $operson = [];
         for ($i = 0; $i < count($authors) - 1; $i++) {
           $operson[] = new Person($authors[$i], $institution[$i]);
         }
 
-        $papers[] = new Paper($id[$indexID]->nodeValue, $title, $type[$indexID]->textContent, $operson);          
+        $papers[] = new Paper($id[$indexID]->nodeValue, $title, $type[$indexID]->textContent, $operson);
         $indexID++;
       }
 
