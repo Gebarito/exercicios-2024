@@ -1,5 +1,7 @@
 {
     "github-actions.workflows.pinned.workflows": [
         ".github/workflows/php.yml"
-    ]
+    ],
+    "cmake.sourceDirectory": "E:/workspace/EXERCICIO-CHUVA/chuva/dart/linux",
+    "dart.flutterSdkPath": "E:\\dev\\flutter"
 }

@@ -7,11 +7,10 @@ void main() {
 class ChuvaDart extends StatelessWidget {
   const ChuvaDart({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Flutter ♥ Chuva',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
@@ -38,67 +37,127 @@ class _CalendarState extends State<Calendar> {
     });
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: const Text('Chuva ❤️ Flutter'),
+@override
+Widget build(BuildContext context) {
+  return Scaffold(
+    appBar: AppBar(
+      backgroundColor: Color.fromRGBO(69, 97, 137, 1),
+      title: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          const Text(
+            'Chuva 💜 Flutter',
+            style: TextStyle(color: Colors.white),
+          ),
+          const SizedBox(height: 4),
+          const Text(
+            'Programação',
+            style: TextStyle(color: Colors.white70, fontSize: 16),
+          ),
+          const SizedBox(height: 4),
+          OutlinedButton(
+            onPressed: (){},
+            style: OutlinedButton.styleFrom(
+              backgroundColor: Colors.white,
+            ),
+            child: const Text(
+              'Exibindo todas as atividades',
+              style: TextStyle(color: Colors.black, fontSize: 12),
+            ),
+          ),
+        ],
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'Programação',
+      centerTitle: true,
+      toolbarHeight: 100,
+    ),
+    body: Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: <Widget>[
+          Container(
+            margin: const EdgeInsets.symmetric(vertical: 1),
+            color: const Color(0xFF306DC3),
+            child: Row(
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(5),
+                  color: Colors.white,
+                  child: const Column(
+                    children: [
+                      Text(
+                        'Nov',
+                        style: TextStyle(fontSize: 16),
+                      ),
+                      Text(
+                        '2023',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Row(
+                  children: [
+                    for (int day = 26; day <= 30; day++)
+                      Container(
+                        constraints: BoxConstraints(
+                          maxWidth: MediaQuery.of(context).size.width * 0.133,
+                        ),
+                        child: OutlinedButton(
+                          style: OutlinedButton.styleFrom(
+                            padding: const EdgeInsets.all(5),
+                            side: const BorderSide(
+                              style: BorderStyle.none,
+                            ),
+                          ),
+                          onPressed: () {
+                            _changeDate(DateTime(2023, 11, day));
+                          },
+                          child: Text(
+                            day.toString(),
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Colors.white,
+                              fontWeight: _currentDate.day == day
+                                  ? FontWeight.bold
+                                  : FontWeight.normal,
+                            ),
+                          ),
+                        ),
+                      ),
+                  ],
+                ),
+              ],
             ),
-            const Text(
-              'Nov',
-            ),
-            const Text(
-              '2023',
-            ),
+          ),
+          if (_currentDate.day == 26)
             OutlinedButton(
               onPressed: () {
-                _changeDate(DateTime(2023, 11, 26));
+                setState(() {
+                  _clicked = true;
+                });
               },
-              child: Text(
-                '26',
-                style: Theme.of(context).textTheme.headlineMedium,
-              ),
+              child: const Text('Mesa redonda de 07:00 até 08:00'),
             ),
+          if (_currentDate.day == 28)
             OutlinedButton(
               onPressed: () {
-                _changeDate(DateTime(2023, 11, 28));
+                setState(() {
+                  _clicked = true;
+                });
               },
-              child: Text(
-                '28',
-                style: Theme.of(context).textTheme.headlineMedium,
-              ),
+              child: const Text('Palestra de 09:30 até 10:00'),
             ),
-            if (_currentDate.day == 26)
-              OutlinedButton(
-                  onPressed: () {
-                    setState(() {
-                      _clicked = true;
-                    });
-                  },
-                  child: const Text('Mesa redonda de 07:00 até 08:00')),
-            if (_currentDate.day == 28)
-              OutlinedButton(
-                  onPressed: () {
-                    setState(() {
-                      _clicked = true;
-                    });
-                  },
-                  child: const Text('Palestra de 09:30 até 10:00')),
-            if (_currentDate.day == 26 && _clicked) const Activity(),
-          ],
-        ),
+          if (_currentDate.day == 26 && _clicked) const Activity(),
+        ],
       ),
-    );
-  }
+    ),
+  );
 }
+}
+
 
 class Activity extends StatefulWidget {
   const Activity({super.key});
@@ -113,11 +172,11 @@ class _ActivityState extends State<Activity> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Theme.of(context).colorScheme.inversePrimary,
+      color: Color.fromRGBO(69, 97, 137, 1), // Alterando a cor de fundo para RGB (69, 97, 137)
       child: Column(children: [
         Text(
           'Activity title',
-          style: Theme.of(context).textTheme.bodySmall,
+          style: TextStyle(color: Colors.white),
         ),
         const Text('A Física dos Buracos Negros Supermassivos'),
         const Text('Mesa redonda'),
