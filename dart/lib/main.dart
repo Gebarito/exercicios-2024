@@ -29,7 +29,7 @@ class Calendar extends StatefulWidget {
 
 class _CalendarState extends State<Calendar> {
   DateTime _currentDate = DateTime(2023, 11, 26);
-  //bool _clicked = false;
+  bool _clicked = false;
 
   void _changeDate(DateTime newDate) {
     setState(() {
@@ -141,26 +141,29 @@ Widget build(BuildContext context) {
           ),
  
           // logica de negocios
- 
-          // if (_currentDate.day == 26)
-          //   OutlinedButton(
-          //     onPressed: () {
-          //       setState(() {
-          //         _clicked = true;
-          //       });
-          //     },
-          //     child: const Text('Mesa redonda de 07:00 até 08:00'),
-          //   ),
-          // if (_currentDate.day == 28)
-          //   OutlinedButton(
-          //     onPressed: () {
-          //       setState(() {
-          //         _clicked = true;
-          //       });
-          //     },
-          //     child: const Text('Palestra de 09:30 até 10:00'),
-          //   ),
-          // if (_currentDate.day == 26 && _clicked) const Activity(),
+          //SET DAY STATES
+          if (_currentDate.day == 26)
+            OutlinedButton(
+              onPressed: () {
+                setState(() {
+                  _clicked = true;
+                });
+              },
+              child: const Text('Mesa redonda de 07:00 até 08:00'),
+            ),
+          if (_currentDate.day == 28)
+            OutlinedButton(
+              onPressed: () {
+                setState(() {
+                  _clicked = true;
+                });
+              },
+              child: const Text('Palestra de 09:30 até 10:00'),
+            ),
+          if (_currentDate.day == 26 && _clicked) const Activity(),
+          // END DAY STATES
+        
+        
         ],
       ),
     ),

@@ -30,7 +30,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  json_annotation: ^4.4.0
+  json_annotation: ^4.9.0
   http: ^0.13.3
   intl: ^0.17.0
 
@@ -48,7 +48,7 @@ dev_dependencies:
     sdk: flutter
   test: any
   flutter_lints: ^2.0.0
-  build_runner: ^2.4.8
+  build_runner: ^2.4.9
   json_serializable: ^6.7.1
 
 # The following section is specific to Flutter packages.
