@@ -3,7 +3,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'paper.g.dart';
 
 @JsonSerializable()
-class Activity {
+class Paper {
   final int id;
   final int changed;
   final DateTime start;
@@ -21,7 +21,7 @@ class Activity {
   final dynamic parent;
   final String event;
 
-  Activity({
+  Paper({
     required this.id,
     required this.changed,
     required this.start,
@@ -40,8 +40,8 @@ class Activity {
     required this.event,
   });
 
-  factory Activity.fromJson(Map<String, dynamic> json) =>
-      _$ActivityFromJson(json);
+  factory Paper.fromJson(Map<String, dynamic> json) =>
+      _$PaperFromJson(json);
 
-  Map<String, dynamic> toJson() => _$ActivityToJson(this);
+  Map<String, dynamic> toJson() => _$PaperToJson(this);
 }

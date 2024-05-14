@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
 
-// Importe seu arquivo de modelo gerado
 import 'package:chuva_dart/model/paper.dart';
 
 class ActivityCardList extends StatefulWidget {
@@ -11,7 +10,7 @@ class ActivityCardList extends StatefulWidget {
 }
 
 class _ActivityCardListState extends State<ActivityCardList> {
-  List<Activity> activities = [];
+  List<Paper> activities = [];
 
   @override
   void initState() {
@@ -21,14 +20,11 @@ class _ActivityCardListState extends State<ActivityCardList> {
 
   Future<void> loadActivities() async {
     try {
-      // Carregue o conteúdo do arquivo JSON
       String jsonString = await rootBundle.loadString('assets/activities.json');
       
-      // Decode do JSON para uma lista de Map<String, dynamic>
       List<dynamic> jsonList = jsonDecode(jsonString);
 
-      // Mapeamento dos itens da lista para objetos de atividade usando o método gerado
-      List<Activity> loadedActivities = jsonList.map((json) => Activity.fromJson(json)).toList();
+      List<Paper> loadedActivities = jsonList.map((json) => Paper.fromJson(json)).toList();
 
       setState(() {
         activities = loadedActivities;

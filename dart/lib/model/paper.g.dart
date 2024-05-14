@@ -6,7 +6,7 @@ part of 'paper.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-Activity _$ActivityFromJson(Map<String, dynamic> json) => Activity(
+Paper _$PaperFromJson(Map<String, dynamic> json) => Paper(
       id: (json['id'] as num).toInt(),
       changed: (json['changed'] as num).toInt(),
       start: DateTime.parse(json['start'] as String),
@@ -25,7 +25,7 @@ Activity _$ActivityFromJson(Map<String, dynamic> json) => Activity(
       event: json['event'] as String,
     );
 
-Map<String, dynamic> _$ActivityToJson(Activity instance) => <String, dynamic>{
+Map<String, dynamic> _$PaperToJson(Paper instance) => <String, dynamic>{
       'id': instance.id,
       'changed': instance.changed,
       'start': instance.start.toIso8601String(),
