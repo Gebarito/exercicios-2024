@@ -4,22 +4,22 @@ part 'paper.g.dart';
 
 @JsonSerializable()
 class Paper {
-  final int id;
-  final int changed;
-  final DateTime start;
-  final DateTime end;
-  final Map<String, dynamic> title;
-  final Map<String, dynamic> description;
-  final Map<String, dynamic> category;
-  final List<dynamic> locations;
-  final Map<String, dynamic> type;
-  final List<dynamic> papers;
-  final List<dynamic> people;
-  final int status;
-  final int weight;
-  final dynamic addons;
-  final dynamic parent;
-  final String event;
+  int id;
+  int changed;
+  String start;
+  String end;
+  Map<String, dynamic> title;
+  Map<String, dynamic> description;
+  Map<String, dynamic> category;
+  List<dynamic> locations;
+  Map<String, dynamic> type;
+  List<dynamic> papers;
+  List<dynamic> people;
+  int status;
+  int weight;
+  Map<String, dynamic> addons;
+  String parent;
+  String event;
 
   Paper({
     required this.id,
@@ -37,11 +37,10 @@ class Paper {
     required this.weight,
     required this.addons,
     required this.parent,
-    required this.event,
+    required this.event
   });
 
-  factory Paper.fromJson(Map<String, dynamic> json) =>
-      _$PaperFromJson(json);
+  factory Paper.fromJson(Map<String, dynamic> json) => _$PaperFromJson(json);
 
   Map<String, dynamic> toJson() => _$PaperToJson(this);
 }
