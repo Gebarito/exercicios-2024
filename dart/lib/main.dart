@@ -29,7 +29,7 @@ class Calendar extends StatefulWidget {
 
 class _CalendarState extends State<Calendar> {
   DateTime _currentDate = DateTime(2023, 11, 26);
-  bool _clicked = false;
+  //bool _clicked = false;
 
   void _changeDate(DateTime newDate) {
     setState(() {
@@ -60,9 +60,16 @@ Widget build(BuildContext context) {
             style: OutlinedButton.styleFrom(
               backgroundColor: Colors.white,
             ),
-            child: const Text(
-              'Exibindo todas as atividades',
-              style: TextStyle(color: Colors.black, fontSize: 12),
+            child: const Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(Icons.calendar_month_outlined),
+                SizedBox(width: 4),
+                Text(
+                  'Exibindo todas as atividades',
+                  style: TextStyle(color: Colors.black, fontSize: 12),
+                )
+              ],
             ),
           ),
         ],
@@ -132,31 +139,35 @@ Widget build(BuildContext context) {
               ],
             ),
           ),
-          if (_currentDate.day == 26)
-            OutlinedButton(
-              onPressed: () {
-                setState(() {
-                  _clicked = true;
-                });
-              },
-              child: const Text('Mesa redonda de 07:00 até 08:00'),
-            ),
-          if (_currentDate.day == 28)
-            OutlinedButton(
-              onPressed: () {
-                setState(() {
-                  _clicked = true;
-                });
-              },
-              child: const Text('Palestra de 09:30 até 10:00'),
-            ),
-          if (_currentDate.day == 26 && _clicked) const Activity(),
+ 
+          // logica de negocios
+ 
+          // if (_currentDate.day == 26)
+          //   OutlinedButton(
+          //     onPressed: () {
+          //       setState(() {
+          //         _clicked = true;
+          //       });
+          //     },
+          //     child: const Text('Mesa redonda de 07:00 até 08:00'),
+          //   ),
+          // if (_currentDate.day == 28)
+          //   OutlinedButton(
+          //     onPressed: () {
+          //       setState(() {
+          //         _clicked = true;
+          //       });
+          //     },
+          //     child: const Text('Palestra de 09:30 até 10:00'),
+          //   ),
+          // if (_currentDate.day == 26 && _clicked) const Activity(),
         ],
       ),
     ),
   );
 }
 }
+
 
 
 class Activity extends StatefulWidget {
@@ -174,7 +185,7 @@ class _ActivityState extends State<Activity> {
     return Container(
       color: Color.fromRGBO(69, 97, 137, 1), // Alterando a cor de fundo para RGB (69, 97, 137)
       child: Column(children: [
-        Text(
+        const Text(
           'Activity title',
           style: TextStyle(color: Colors.white),
         ),
