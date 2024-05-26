@@ -131,6 +131,14 @@ Widget build(BuildContext context) {
               },
               child: const Text('Mesa redonda de 07:00 até 08:00'),
             ),
+          if(_currentDate.day == 27)
+            OutlinedButton(onPressed: (){
+              setState(() {
+                _clicked = true;
+                });
+              }, 
+              child: const Text("dia 27")
+            ),
           if (_currentDate.day == 28)
             OutlinedButton(
               onPressed: () {
@@ -140,6 +148,22 @@ Widget build(BuildContext context) {
               },
               child: const Text('Palestra de 09:30 até 10:00'),
             ),
+          if (_currentDate.day == 29)
+            OutlinedButton(onPressed: (){
+              setState(() {
+                _clicked = true;
+              });
+            }, 
+            child: const Text("dia 29") 
+          ),
+          if (_currentDate.day == 30)
+            OutlinedButton(onPressed: (){
+              setState(() {
+                _clicked = true;
+              });
+            }, 
+            child: const Text("dia 30")
+          ),
           if (_currentDate.day == 26 && _clicked) const Activity(),
           // END DAY STATES
         
