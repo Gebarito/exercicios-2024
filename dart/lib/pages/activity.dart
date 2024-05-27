@@ -215,7 +215,9 @@ class _ActivityPageState extends State<ActivityPage> {
               elevation: 0.0,
               child: ListTile(
                 onTap: () {
-                  context.push('/person/${activity.id}');
+                  if(activity.people.isNotEmpty){
+                    context.push('/person/${activity.id}');
+                  }
                 },
                 leading: CircleAvatar(
                     backgroundImage: CachedNetworkImageProvider(
