@@ -17,12 +17,20 @@ class PersonPage extends StatefulWidget {
 class _PersonPageState extends State<PersonPage> {
   late Future<Activity> futureActivity;
   late Future<ActivityData> futureActivities;
+  String? authorHash;
 
   @override
   void initState() {
     super.initState();
     futureActivities = fetchActivities();
     futureActivity = fetchActivityById(widget.activityId);
+    futureActivity.then((activity) {
+      if (activity.people.isNotEmpty) {
+        setState(() {
+          authorHash = activity.people[0].hash;
+        });
+      }
+    });
   }
 
   @override
@@ -56,31 +64,29 @@ class _PersonPageState extends State<PersonPage> {
     );
   }
 
-  Expanded buildAuthorActivities(){
+  Expanded buildAuthorActivities() {
     return Expanded(
       child: FutureBuilder<ActivityData>(
         future: futureActivities,
         builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting){
+          if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
           } else if (snapshot.hasError) {
-            return Center(child: Text('Erro em person/buildAuthor: ${snapshot.error}'));
-          } else if(snapshot.hasData) {
+            return Center(child: Text('Erro em person/buildAuthorActivities: ${snapshot.error}'));
+          } else if (snapshot.hasData) {
             var filteredActivities = snapshot.data!.data.where((activity) {
-              var activityAuthor = activity.people[0];
-              return activityAuthor.hash.toString() == activity.people[0].hash.toString();
+              return activity.people.isNotEmpty && activity.people[0].hash == authorHash;
             }).toList();
-            
+
             return ListView.builder(
               itemCount: filteredActivities.length,
-              itemBuilder: ((context, index) {
+              itemBuilder: (context, index) {
                 var activity = filteredActivities[index];
                 final startTime = DateTime.parse(activity.start);
                 final endTime = DateTime.parse(activity.end);
                 final formattedStartTime = '${startTime.hour.toString().padLeft(2, '0')}:${startTime.minute.toString().padLeft(2, '0')}';
                 final formattedEndTime = '${endTime.hour.toString().padLeft(2, '0')}:${endTime.minute.toString().padLeft(2, '0')}';
-                
-                
+
                 return InkWell(
                   onTap: () {
                     context.push('/activity/${activity.id}');
@@ -97,7 +103,7 @@ class _PersonPageState extends State<PersonPage> {
                           width: 10,
                           height: 100,
                           decoration: BoxDecoration(
-                            color: activity.category.color != '' ? fromCssColor(activity.category.color) : Colors.blue,
+                            color: activity.category.color.isNotEmpty ? fromCssColor(activity.category.color) : Colors.blue,
                             borderRadius: const BorderRadius.only(
                               topLeft: Radius.circular(15),
                               bottomLeft: Radius.circular(15),
@@ -133,9 +139,9 @@ class _PersonPageState extends State<PersonPage> {
                     ),
                   ),
                 );
-              }),
+              },
             );
-          } else{
+          } else {
             return const Center(child: Text('Erro ao carregar, nenhuma atividade foi encontrada'));
           }
         },
@@ -168,13 +174,11 @@ class _PersonPageState extends State<PersonPage> {
     );
   }
 
-  String getDayOfWeekAbrv(DateTime dt){
-    if(dt.day == 26) return 'dom.';
-    if(dt.day == 27) return 'seg.';
-    if(dt.day == 28) return 'ter.';
-    if(dt.day == 29) return 'qua.';
-
-
+  String getDayOfWeekAbrv(DateTime dt) {
+    if (dt.day == 26) return 'dom.';
+    if (dt.day == 27) return 'seg.';
+    if (dt.day == 28) return 'ter.';
+    if (dt.day == 29) return 'qua.';
     return 'qui.';
   }
 
@@ -182,9 +186,9 @@ class _PersonPageState extends State<PersonPage> {
     final startTime = DateTime.parse(activity.start);
     final formattedStartTime = '${startTime.day.toString()}/${startTime.month.toString()}/${startTime.year.toString()}';
     String pictureURL = "";
-    final personName = activity.people[0].name;
-    final universityName = activity.people[0].institution;
-    final bio = activity.people[0].bio.ptBr;
+    final personName = activity.people.isNotEmpty ? activity.people[0].name : '';
+    final universityName = activity.people.isNotEmpty ? activity.people[0].institution : '';
+    final bio = activity.people.isNotEmpty ? activity.people[0].bio.ptBr : '';
     if (activity.people.isNotEmpty) {
       pictureURL = activity.people[0].picture;
     }
@@ -237,7 +241,7 @@ class _PersonPageState extends State<PersonPage> {
                 fontSize: 16.0,
               ),
             ),
-            const SizedBox(height: 8.0,),
+            const SizedBox(height: 8.0),
             const Text(
               'Atividades',
               style: TextStyle(
@@ -245,14 +249,14 @@ class _PersonPageState extends State<PersonPage> {
                 fontWeight: FontWeight.bold,
               ),
             ),
-            const SizedBox(height: 2.0,),
+            const SizedBox(height: 2.0),
             Text(
               '${getDayOfWeekAbrv(startTime)}, $formattedStartTime',
               style: const TextStyle(
                 fontWeight: FontWeight.bold,
               ),
-            ), 
-            const SizedBox(height: 2.0,),
+            ),
+            const SizedBox(height: 2.0),
           ],
         ),
       ),
