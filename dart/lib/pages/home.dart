@@ -176,7 +176,7 @@ class _HomePageState extends State<HomePage> {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
           } else if (snapshot.hasError) {
-            return Center(child: Text('Erro em _homepagestate: ${snapshot.error}'));
+            return Center(child: Text('Erro em home/buildActivities: ${snapshot.error}'));
           } else if (snapshot.hasData) {
             var filteredActivities = snapshot.data!.data.where((activity) {
               var activityDate = DateTime.parse(activity.start);
