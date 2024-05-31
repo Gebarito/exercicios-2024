@@ -16,6 +16,7 @@ class ActivityPage extends StatefulWidget {
 
 class _ActivityPageState extends State<ActivityPage> {
   late Future<Activity> futureActivity;
+  bool _clicked = false;
 
   @override
   void initState() {
@@ -155,14 +156,17 @@ class _ActivityPageState extends State<ActivityPage> {
             padding: const EdgeInsets.all(16.0),
             child: OutlinedButton(
               onPressed: () {
-                final snackBar = SnackBar(
-                  content: const Text('Vamos te lembrar dessa atividade'),
-                  action: SnackBarAction(
-                    label: '',
-                    onPressed: () {},
-                  ),
-                );
-                ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                if(!_clicked) {
+                  final snackBar = SnackBar(
+                    content: const Text('Vamos te lembrar dessa atividade'),
+                    action: SnackBarAction(
+                      label: '',
+                      onPressed: () {},
+                    ),
+                  );
+                  ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                }
+                // _clicked = !_clicked;
               },
               style: OutlinedButton.styleFrom(
                 backgroundColor: Colors.blue.shade900,
@@ -181,6 +185,7 @@ class _ActivityPageState extends State<ActivityPage> {
                   ),
                   SizedBox(width: 10),
                   Text(
+                    // _clicked ? 'Te lembraremos desse evento': 'Adicionar à sua agenda',
                     'Adicionar à sua agenda',
                     style: TextStyle(color: Colors.white),
                   ),
@@ -235,6 +240,7 @@ class _ActivityPageState extends State<ActivityPage> {
     );
   }
 }
+
 
 Future<Activity> fetchActivityById(String id) async {
   final data = await fetchActivities();
