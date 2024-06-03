@@ -1,32 +1,35 @@
 class ActivityData {
   int count;
-  Links links;
+  // Links links;
   List<Activity> data;
 
-  ActivityData({required this.count, required this.links, required this.data});
+  ActivityData({
+    required this.count, 
+    // required this.links, 
+    required this.data});
 
   factory ActivityData.fromJson(Map<String, dynamic> json) {
     return ActivityData(
       count: json['count'],
-      links: Links.fromJson(json['links']),
+      // links: Links.fromJson(json['links']),
       data: List<Activity>.from(json['data'].map((x) => Activity.fromJson(x))),
     );
   }
 }
 
-class Links {
-  String self;
-  String next;
+// class Links {
+//   String self;
+//   String next;
 
-  Links({required this.self, required this.next});
+//   Links({required this.self, required this.next});
 
-  factory Links.fromJson(Map<String, dynamic> json) {
-    return Links(
-      self: json['self'] ?? '',
-      next: json['next'] ?? '',
-    );
-  }
-}
+//   factory Links.fromJson(Map<String, dynamic> json) {
+//     return Links(
+//       self: json['self'] ?? '',
+//       next: json['next'] ?? '',
+//     );
+//   }
+// }
 
 class Activity {
   int id;

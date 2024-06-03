@@ -1,14 +1,29 @@
 import 'dart:convert';
-import 'package:http/http.dart' as http;
+import 'package:dio/dio.dart';
 import 'package:chuva_dart/model/models.dart';
+//import 'package:http/http.dart' as http; dio no lugar para multiples responses
 
 Future<ActivityData> fetchActivities() async {
-  final response = await http.get(Uri.parse('https://raw.githubusercontent.com/chuva-inc/exercicios-2023/master/dart/assets/activities.json'),);
-  // final response2 = await http.get(Uri.parse('https://raw.githubusercontent.com/chuva-inc/exercicios-2023/master/dart/assets/activities-1.json'));
+  final dio = Dio();
 
-  if (response.statusCode == 200) {
-    return ActivityData.fromJson(jsonDecode(response.body));
-  } else {
-    throw Exception('Atividades não foram carregadas\nData_controller.dart');
+  try {
+    final response1 = await dio.get('https://raw.githubusercontent.com/chuva-inc/exercicios-2023/master/dart/assets/activities.json');
+    final response2 = await dio.get('https://raw.githubusercontent.com/chuva-inc/exercicios-2023/master/dart/assets/activities-1.json');
+
+    if (response1.statusCode == 200 && response2.statusCode == 200) {
+      final data1 = jsonDecode(response1.data);
+      final data2 = jsonDecode(response2.data);
+
+      final combinedResponses = {
+        'count': data1['count'] + data2['count'],
+        'data': [...data1['data'], ...data2['data']]
+      };
+
+      return ActivityData.fromJson(combinedResponses);
+    } else {
+      throw Exception('Atividades não foram carregadas\nData_controller.dart');
+    }
+  } catch (e) {
+    throw Exception('Erro ao carregar atividades: $e');
   }
 }
