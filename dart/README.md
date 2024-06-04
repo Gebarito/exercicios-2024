@@ -20,3 +20,11 @@ O projeto está estruturado em uma arquitetura "MVC". Dentro de lib existem 3 di
 
 A biblioteca [shared_preferences](https://pub.dev/packages/shared_preferences) tambem foi utilizada!
 Ela consegue salvar dados simples usando a o armazenamento persistente da plataforma da build, foi implementada para salvar atividades!
+
+### Screenshots do programa em execução
+#### Tela inicial
+![Calendario-Dia26](screenshots/calendar-26.png)
+#### Pagina da atividade
+![Activity-Page](screenshots/Activity-Page.png)
+#### Pagina do Autor
+![Author-Page](screenshots/Author-Page.png)
