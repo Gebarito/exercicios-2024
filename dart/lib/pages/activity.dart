@@ -4,6 +4,7 @@ import 'package:chuva_dart/controller/data_controller.dart';
 import 'package:from_css_color/from_css_color.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:go_router/go_router.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ActivityPage extends StatefulWidget {
   final String activityId;
@@ -16,12 +17,38 @@ class ActivityPage extends StatefulWidget {
 
 class _ActivityPageState extends State<ActivityPage> {
   late Future<Activity> futureActivity;
-  bool _clicked = false;
+  bool _isAddedToAgenda = false;
 
   @override
   void initState() {
     super.initState();
     futureActivity = fetchActivityById(widget.activityId);
+    _loadAgendaStatus();
+  }
+
+  _loadAgendaStatus() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _isAddedToAgenda = prefs.getBool('activity_${widget.activityId}_added') ?? false;
+    });
+  }
+
+  _toggleAgendaStatus() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _isAddedToAgenda = !_isAddedToAgenda;
+      prefs.setBool('activity_${widget.activityId}_added', _isAddedToAgenda);
+    });
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          _isAddedToAgenda
+              ? 'Atividade adicionada à sua agenda'
+              : 'Atividade removida da sua agenda',
+        ),
+      ),
+    );
   }
 
   @override
@@ -73,10 +100,10 @@ class _ActivityPageState extends State<ActivityPage> {
 
   String getDayOfWeek(Activity activity) {
     DateTime date = DateTime.parse(activity.start);
-    if(date.day == 26) return 'Domingo';
-    if(date.day == 27) return 'Segunda-feira';
-    if(date.day == 28) return 'Terça-feira';
-    if(date.day == 29) return 'Quarta-feira';
+    if (date.day == 26) return 'Domingo';
+    if (date.day == 27) return 'Segunda-feira';
+    if (date.day == 28) return 'Terça-feira';
+    if (date.day == 29) return 'Quarta-feira';
     return 'Quinta-feira';
   }
 
@@ -86,7 +113,7 @@ class _ActivityPageState extends State<ActivityPage> {
     final formattedStartTime = '${startTime.hour.toString().padLeft(2, '0')}:${startTime.minute.toString().padLeft(2, '0')}';
     final formattedEndTime = '${endTime.hour.toString().padLeft(2, '0')}:${endTime.minute.toString().padLeft(2, '0')}';
     String pictureURL = "";
-    if(activity.people.isNotEmpty){
+    if (activity.people.isNotEmpty) {
       pictureURL = activity.people[0].picture;
     }
 
@@ -155,19 +182,7 @@ class _ActivityPageState extends State<ActivityPage> {
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: OutlinedButton(
-              onPressed: () {
-                if(!_clicked) {
-                  final snackBar = SnackBar(
-                    content: const Text('Vamos te lembrar dessa atividade'),
-                    action: SnackBarAction(
-                      label: '',
-                      onPressed: () {},
-                    ),
-                  );
-                  ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                }
-                // _clicked = !_clicked;
-              },
+              onPressed: _toggleAgendaStatus,
               style: OutlinedButton.styleFrom(
                 backgroundColor: Colors.blue.shade900,
                 side: BorderSide.none,
@@ -176,18 +191,17 @@ class _ActivityPageState extends State<ActivityPage> {
                   borderRadius: BorderRadius.zero,
                 ),
               ),
-              child: const Row(
+              child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Icon(
-                    Icons.star,
+                    _isAddedToAgenda ? Icons.star : Icons.star_border,
                     color: Colors.white,
                   ),
-                  SizedBox(width: 10),
+                  const SizedBox(width: 10),
                   Text(
-                    // _clicked ? 'Te lembraremos desse evento': 'Adicionar à sua agenda',
-                    'Adicionar à sua agenda',
-                    style: TextStyle(color: Colors.white),
+                    _isAddedToAgenda ? 'Remover da sua agenda' : 'Adicionar à sua agenda',
+                    style: const TextStyle(color: Colors.white),
                   ),
                 ],
               ),
@@ -220,15 +234,14 @@ class _ActivityPageState extends State<ActivityPage> {
               elevation: 0.0,
               child: ListTile(
                 onTap: () {
-                  if(activity.people.isNotEmpty){
+                  if (activity.people.isNotEmpty) {
                     context.push('/person/${activity.id}');
                   }
                 },
                 leading: CircleAvatar(
-                    backgroundImage: CachedNetworkImageProvider(
+                  backgroundImage: CachedNetworkImageProvider(
                     pictureURL,
                   ),
-                  
                 ),
                 title: Text(activity.people.isNotEmpty ? activity.people[0].name : 'Nome da Pessoa'),
                 subtitle: const Text('Organizador da atividade'),
@@ -240,7 +253,6 @@ class _ActivityPageState extends State<ActivityPage> {
     );
   }
 }
-
 
 Future<Activity> fetchActivityById(String id) async {
   final data = await fetchActivities();
