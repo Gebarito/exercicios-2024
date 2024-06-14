@@ -101,7 +101,7 @@ class _PersonPageState extends State<PersonPage> {
                       children: [
                         Container(
                           width: 10,
-                          height: 100,
+                          height: (activity.title.ptBr.length < 70) ? 120 : 190,
                           decoration: BoxDecoration(
                             color: activity.category.color.isNotEmpty ? fromCssColor(activity.category.color) : Colors.blue,
                             borderRadius: const BorderRadius.only(
@@ -213,7 +213,7 @@ class _PersonPageState extends State<PersonPage> {
                       personName,
                       style: const TextStyle(
                         fontWeight: FontWeight.bold,
-                        fontSize: 20.0,
+                        fontSize: 17.0,
                       ),
                     ),
                     Text(
@@ -236,7 +236,7 @@ class _PersonPageState extends State<PersonPage> {
             ),
             const SizedBox(height: 8.0),
             Text(
-              bio,
+              bio.replaceAll(RegExp(r'<[^>]*>'), ''),
               style: const TextStyle(
                 fontSize: 16.0,
               ),

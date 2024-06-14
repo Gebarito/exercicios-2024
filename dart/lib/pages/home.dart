@@ -14,7 +14,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   String currentDay = '26';
   late Future<ActivityData> futureActivities;
-  
+
   @override
   void initState() {
     super.initState();
@@ -61,11 +61,11 @@ class _HomePageState extends State<HomePage> {
             color: Colors.blue.shade800,
             child: Row(
               children: [
-                dateButton('26'),
-                dateButton('27'),
-                dateButton('28'),
-                dateButton('29'),
-                dateButton('30'),
+                Expanded(child: dateButton('26')),
+                Expanded(child: dateButton('27')),
+                Expanded(child: dateButton('28')),
+                Expanded(child: dateButton('29')),
+                Expanded(child: dateButton('30')),
               ],
             ),
           ),
@@ -93,6 +93,7 @@ class _HomePageState extends State<HomePage> {
         style: TextStyle(
           color: Colors.white,
           fontWeight: currentDay == day ? FontWeight.bold : FontWeight.normal,
+          fontSize: 13,
         ),
       ),
     );
@@ -130,7 +131,6 @@ class _HomePageState extends State<HomePage> {
                 borderRadius: BorderRadius.all(Radius.circular(40)),
               ),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Container(
                     padding: const EdgeInsets.all(4),
@@ -143,11 +143,14 @@ class _HomePageState extends State<HomePage> {
                       color: Colors.black,
                     ),
                   ),
-                  const SizedBox(width: 30),
-                  const Text(
-                    'Exibindo todas as atividades',
-                    style: TextStyle(
-                      color: Colors.black,
+                  const SizedBox(width: 10),
+                  const Expanded(
+                    child: Text(
+                      'Exibindo todas as atividades',
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 10,
+                      ),
                     ),
                   ),
                 ],
@@ -168,7 +171,9 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Expanded buildActivities() {
+
+  
+Expanded buildActivities() {
     return Expanded(
       child: FutureBuilder<ActivityData>(
         future: futureActivities,
@@ -196,25 +201,19 @@ class _HomePageState extends State<HomePage> {
                   onTap: () {
                     context.push('/activity/${activity.id}');
                   },
-                  child: Card(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15.0),
-                    ),
-                    elevation: 5,
+                  child: Container(
+                    decoration: BoxDecoration(                    
+                      borderRadius: BorderRadius.circular(3),
+                      border: Border(
+                        left: BorderSide(
+                            color: activity.category.color != '' ? fromCssColor(activity.category.color) : Colors.blue,
+                            width: 5,
+                          ),
+                        ),
+                      ),
                     margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
                     child: Row(
                       children: [
-                        Container(
-                          width: 10,
-                          height: 100,
-                          decoration: BoxDecoration(
-                            color: activity.category.color != '' ? fromCssColor(activity.category.color) : Colors.blue,
-                            borderRadius: const BorderRadius.only(
-                              topLeft: Radius.circular(15),
-                              bottomLeft: Radius.circular(15),
-                            ),
-                          ),
-                        ),
                         Expanded(
                           child: Padding(
                             padding: const EdgeInsets.all(10.0),
@@ -223,7 +222,10 @@ class _HomePageState extends State<HomePage> {
                               children: [
                                 Text(
                                   '${activity.type.title.ptBr} de $formattedStartTime até $formattedEndTime',
-                                  style: const TextStyle(fontSize: 12, color: Colors.grey),
+                                  style: const TextStyle(
+                                    fontSize: 12, 
+                                    color: Colors.black
+                                    ),
                                 ),
                                 const SizedBox(height: 5),
                                 Text(
@@ -233,7 +235,7 @@ class _HomePageState extends State<HomePage> {
                                 const SizedBox(height: 5),
                                 if (activity.people.isNotEmpty)
                                   Text(
-                                    'Autor: ${activity.people[0].name}',
+                                    activity.people[0].name,
                                     style: const TextStyle(fontSize: 14, color: Colors.grey),
                                   ),
                               ],
@@ -253,4 +255,97 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
+  
+  
+// Expanded buildActivities() {
+//     return Expanded(
+//       child: FutureBuilder<ActivityData>(
+//         future: futureActivities,
+//         builder: (context, snapshot) {
+//           if (snapshot.connectionState == ConnectionState.waiting) {
+//             return const Center(child: CircularProgressIndicator());
+//           } else if (snapshot.hasError) {
+//             return Center(child: Text('Erro em home/buildActivities: ${snapshot.error}'));
+//           } else if (snapshot.hasData) {
+//             var filteredActivities = snapshot.data!.data.where((activity) {
+//               var activityDate = DateTime.parse(activity.start);
+//               return activityDate.day.toString() == currentDay;
+//             }).toList();
+
+//             return ListView.builder(
+//               itemCount: filteredActivities.length,
+//               itemBuilder: (context, index) {
+//                 var activity = filteredActivities[index];
+//                 final startTime = DateTime.parse(activity.start);
+//                 final endTime = DateTime.parse(activity.end);
+//                 final formattedStartTime = '${startTime.hour.toString().padLeft(2, '0')}:${startTime.minute.toString().padLeft(2, '0')}';
+//                 final formattedEndTime = '${endTime.hour.toString().padLeft(2, '0')}:${endTime.minute.toString().padLeft(2, '0')}';
+
+//                 return InkWell(
+//                   onTap: () {
+//                     context.push('/activity/${activity.id}');
+//                   },
+//                   child: Card(
+//                     color: Colors.white,
+//                     shape: RoundedRectangleBorder(
+//                       borderRadius: BorderRadius.circular(15.0),
+//                     ),
+//                     elevation: 2,
+//                     margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+//                     child: Row(
+//                       children: [
+//                         Container(
+//                           width: 5,
+//                           height: (activity.title.ptBr.length < 70) ? 114 : 173, 
+//                           decoration: BoxDecoration(
+//                             color: activity.category.color != '' ? fromCssColor(activity.category.color) : Colors.blue,
+//                             borderRadius: const BorderRadius.only(
+//                               topLeft: Radius.circular(15),
+//                               bottomLeft: Radius.circular(15),
+//                             ),
+//                           ),
+//                         ),
+//                         Expanded(
+//                           child: Padding(
+//                             padding: const EdgeInsets.all(10.0),
+//                             child: Column(
+//                               crossAxisAlignment: CrossAxisAlignment.start,
+//                               children: [
+//                                 Text(
+//                                   '${activity.type.title.ptBr} de $formattedStartTime até $formattedEndTime',
+//                                   style: const TextStyle(
+//                                     fontSize: 12, 
+//                                     color: Colors.black
+//                                     ),
+//                                 ),
+//                                 const SizedBox(height: 5),
+//                                 Text(
+//                                   activity.title.ptBr,
+//                                   style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+//                                 ),
+//                                 const SizedBox(height: 5),
+//                                 if (activity.people.isNotEmpty)
+//                                   Text(
+//                                     activity.people[0].name,
+//                                     style: const TextStyle(fontSize: 14, color: Colors.grey),
+//                                   ),
+//                               ],
+//                             ),
+//                           ),
+//                         ),
+//                       ],
+//                     ),
+//                   ),
+//                 );
+//               },
+//             );
+//           } else {
+//             return const Center(child: Text('Erro ao carregar, nenhuma atividade foi encontrada'));
+//           }
+//         },
+//       ),
+//     );
+//   }
+  
+
 }
